@@ -1,20 +1,20 @@
 package storage;
 
 public class barangElektronik extends Barang {
-    private String garansi;
+    private int garansi;
 
-    public barangElektronik(String nama, String kode, int stok, String garansi) {
+    public barangElektronik(String nama, String kode, int stok, int garansi) {
         super(nama, kode, stok);
         this.garansi = garansi;
     }
 
-    public String getGaransi() {
+    public int getGaransi() {
         return garansi;
     }
 
     @Override
-    public String toString() {
-        return String.format("%-15s | %-10s | %-5d | Garansi: %s",
-                getNama(), getKode(), getStok(), garansi);
+    public String getInfoTambahan (){
+        return "Garansi: " + getGaransi() + "Bulan";
     }
+
 }

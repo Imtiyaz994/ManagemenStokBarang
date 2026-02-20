@@ -1,6 +1,6 @@
 package storage;
 
-public class Barang {
+public abstract class Barang {
     private String nama;
     private String kode;
     private int stok;
@@ -32,13 +32,11 @@ public class Barang {
         
     }
 
-    public String getInfoTambahan(){
-        return "-";
-    }
+    public abstract String getInfoTambahan();
 
     @Override
     public String toString (){
-        return String.format("%-15s | %-10s |  %-5s | %-15s", nama, kode, stok, getInfoTambahan());
+        return String.format("%-15s | %-10s |  %-5s | %-15s", getNama(), getKode(), getStok(), getInfoTambahan());
     }
 }
 
