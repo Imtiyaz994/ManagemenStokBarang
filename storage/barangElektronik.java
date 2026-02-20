@@ -1,50 +1,27 @@
 package storage;
 
-import java.util.ArrayList;
+public class barangElektronik extends Barang {
+    private String garansi; 
 
-public class BarangElektronik extends Barang {
-
-    private String jenisElektronik; 
-
-    public BarangElektronik(String kodeBarang, String namaBarang, int stok, String jenisElektronik) {
-        super(kodeBarang, namaBarang, stok); 
-        this.jenisElektronik = jenisElektronik;
+    public barangElektronik(String nama, String kode, int stok, String garansi) {
+        super(nama, kode, stok); 
+        this.garansi = garansi;
     }
 
-    public BarangElektronik(String kodeBarang, String namaBarang, int stok) {
-        super(kodeBarang, namaBarang, stok);
-        this.jenisElektronik = "Elektronik Umum";
+    public String getGaransi() {
+        return garansi;
     }
 
-    public String getJenisElektronik() {
-        return jenisElektronik;
-    }
+    public boolean adaGaransi(
+        return garansi > 0;
+    )
 
-    public void setJenisElektronik(String jenisElektronik) {
-        this.jenisElektronik = jenisElektronik;
+    public String statusGaransi() {
+        return adaGaransi() ? "Aktif" : "Habis";
     }
 
     @Override
-    public void tampilInfo() {
-        super.tampilInfo();
-        System.out.println("Kategori: Elektronik");
-        System.out.println("Jenis: " + jenisElektronik);
+    public void getInfoTambahan() {
+        System.out.println("Garansi: " + garansi);
     }
-
-    public static void tampilkanBarangElektronik(ArrayList<Barang> daftarBarang) {
-        System.out.println("=== DAFTAR BARANG ELEKTRONIK ===");
-
-        for (Barang b : daftarBarang) {
-            if (b instanceof BarangElektronik) {
-                BarangElektronik be = (BarangElektronik) b;
-                be.tampilInfo();
-                System.out.println("----------------------");
-            }
-        }
-    }
-}
-
-public class barangElektronik extends Barang{
-    private String garansi;
-
 }
