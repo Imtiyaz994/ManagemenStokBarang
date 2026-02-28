@@ -192,7 +192,7 @@ public class MainFrame extends javax.swing.JDialog {
            int stock = Integer.parseInt(stok);
            
            
-           stokBarang.add(new Barang (nama, kode, stock));
+           //stokBarang.add(new Barang (nama, kode, stock));
            JOptionPane.showMessageDialog(null, "Barang Berhasil Ditambahkan!", "SUKSES!",
                    JOptionPane.INFORMATION_MESSAGE
                    );
