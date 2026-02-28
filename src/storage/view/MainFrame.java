@@ -1,28 +1,22 @@
-package storage;
+package storage.view;
 
+import storage.model.Barang;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-public class MainFrame extends javax.swing.JDialog {
+public class MainFrame extends javax.swing.JFrame {
     
     static ArrayList <Barang> stokBarang = new ArrayList<>();
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
-
-   
-    
-    public MainFrame(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+       
+    public MainFrame() {
         initComponents();
     }
-
     
     private void clear() {
         inNama.setText("");
         inCode.setText("");
         inStok.setText("");
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -44,8 +38,10 @@ public class MainFrame extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        Jbox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Management Barang");
         setResizable(false);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 600));
@@ -87,31 +83,38 @@ public class MainFrame extends javax.swing.JDialog {
         btnTampil.setText("Tampilkan");
         btnTampil.addActionListener(this::btnTampilActionPerformed);
         jPanel1.add(btnTampil);
-        btnTampil.setBounds(330, 210, 110, 30);
+        btnTampil.setBounds(330, 250, 110, 30);
 
         btnADD1.setText("Tambahkan");
         btnADD1.addActionListener(this::btnADD1ActionPerformed);
         jPanel1.add(btnADD1);
-        btnADD1.setBounds(10, 210, 110, 30);
+        btnADD1.setBounds(150, 250, 110, 30);
 
         output.setColumns(20);
         output.setRows(5);
         jScrollPane1.setViewportView(output);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 380, 450, 150);
+        jScrollPane1.setBounds(20, 380, 450, 150);
 
         jButton1.setText("Edit");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
         jPanel1.add(jButton1);
-        jButton1.setBounds(90, 280, 72, 23);
+        jButton1.setBounds(30, 250, 72, 23);
 
         jButton2.setText("Hapus");
         jPanel1.add(jButton2);
-        jButton2.setBounds(190, 280, 72, 20);
+        jButton2.setBounds(350, 320, 72, 20);
 
         jButton3.setText("Cari");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
         jPanel1.add(jButton3);
-        jButton3.setBounds(290, 280, 72, 23);
+        jButton3.setBounds(30, 310, 72, 23);
+
+        Jbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Minuman", "Makanan" }));
+        Jbox.addActionListener(this::JboxActionPerformed);
+        jPanel1.add(Jbox);
+        Jbox.setBounds(30, 200, 100, 22);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,11 +137,11 @@ public class MainFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void inNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inNamaActionPerformed
-        // TODO add your handling code here:
+ 
     }//GEN-LAST:event_inNamaActionPerformed
 
     private void inCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inCodeActionPerformed
-        // TODO add your handling code here:
+  
     }//GEN-LAST:event_inCodeActionPerformed
 
     private void btnTampilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTampilActionPerformed
@@ -149,7 +152,7 @@ public class MainFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_btnTampilActionPerformed
 
     private void inStokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inStokActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_inStokActionPerformed
 
     private void btnADD1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADD1ActionPerformed
@@ -192,7 +195,7 @@ public class MainFrame extends javax.swing.JDialog {
            int stock = Integer.parseInt(stok);
            
            
-           //stokBarang.add(new Barang (nama, kode, stock));
+//           stokBarang.add(new Barang (nama, kode, stock));
            JOptionPane.showMessageDialog(null, "Barang Berhasil Ditambahkan!", "SUKSES!",
                    JOptionPane.INFORMATION_MESSAGE
                    );
@@ -203,14 +206,27 @@ public class MainFrame extends javax.swing.JDialog {
        
     }//GEN-LAST:event_btnADD1ActionPerformed
 
-  
-            
-    public static void main(String args[]) {
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void JboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JboxActionPerformed
+        int a = Jbox.getSelectedIndex();
+    }//GEN-LAST:event_JboxActionPerformed
  
-        
+    public static void main(String args[]) {
+        MainFrame mainFrame = new MainFrame();
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setResizable(false);
+        mainFrame.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Jbox;
     private javax.swing.JToggleButton btnADD1;
     private javax.swing.JToggleButton btnTampil;
     private javax.swing.ButtonGroup buttonGroup1;

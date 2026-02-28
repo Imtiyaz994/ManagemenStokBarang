@@ -1,4 +1,4 @@
-package storage;
+package storage.model;
 
 public class barangPakaian extends Barang {
     private int ukuran;
