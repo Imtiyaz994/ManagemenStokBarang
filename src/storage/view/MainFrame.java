@@ -24,7 +24,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -39,82 +38,116 @@ public class MainFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         Jbox = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        inStok1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Management Barang");
         setResizable(false);
 
+        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 600));
         jPanel1.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
-        jLabel1.setText("Managemen Stok Barang");
-        jLabel1.setName(""); // NOI18N
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(140, 10, 190, 20);
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nama");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(20, 50, 40, 20);
+        jLabel2.setBounds(20, 120, 90, 30);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Kode Barang");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(20, 110, 90, 20);
+        jLabel3.setBounds(20, 170, 90, 30);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Stok");
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Info Tambahan");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(20, 160, 50, 20);
+        jLabel5.setBounds(20, 270, 110, 30);
 
+        inStok.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         inStok.addActionListener(this::inStokActionPerformed);
         jPanel1.add(inStok);
-        inStok.setBounds(140, 150, 310, 30);
+        inStok.setBounds(140, 220, 340, 30);
 
+        inCode.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         inCode.addActionListener(this::inCodeActionPerformed);
         jPanel1.add(inCode);
-        inCode.setBounds(140, 100, 310, 30);
+        inCode.setBounds(140, 170, 340, 30);
 
+        inNama.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         inNama.addActionListener(this::inNamaActionPerformed);
         jPanel1.add(inNama);
-        inNama.setBounds(140, 50, 310, 30);
+        inNama.setBounds(140, 120, 340, 30);
 
+        btnTampil.setBackground(new java.awt.Color(0, 102, 102));
+        btnTampil.setForeground(new java.awt.Color(255, 255, 255));
         btnTampil.setText("Tampilkan");
         btnTampil.addActionListener(this::btnTampilActionPerformed);
         jPanel1.add(btnTampil);
-        btnTampil.setBounds(330, 250, 110, 30);
+        btnTampil.setBounds(140, 330, 110, 30);
 
+        btnADD1.setBackground(new java.awt.Color(0, 102, 102));
+        btnADD1.setForeground(new java.awt.Color(255, 255, 255));
         btnADD1.setText("Tambahkan");
         btnADD1.addActionListener(this::btnADD1ActionPerformed);
         jPanel1.add(btnADD1);
-        btnADD1.setBounds(150, 250, 110, 30);
+        btnADD1.setBounds(20, 330, 110, 30);
 
         output.setColumns(20);
         output.setRows(5);
+        output.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jScrollPane1.setViewportView(output);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(20, 380, 450, 150);
+        jScrollPane1.setBounds(20, 430, 460, 150);
 
+        jButton1.setBackground(new java.awt.Color(0, 102, 102));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Edit");
         jButton1.addActionListener(this::jButton1ActionPerformed);
         jPanel1.add(jButton1);
-        jButton1.setBounds(30, 250, 72, 23);
+        jButton1.setBounds(20, 380, 72, 23);
 
+        jButton2.setBackground(new java.awt.Color(0, 102, 102));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Hapus");
         jPanel1.add(jButton2);
-        jButton2.setBounds(350, 320, 72, 20);
+        jButton2.setBounds(180, 380, 72, 20);
 
+        jButton3.setBackground(new java.awt.Color(0, 102, 102));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Cari");
         jButton3.addActionListener(this::jButton3ActionPerformed);
         jPanel1.add(jButton3);
-        jButton3.setBounds(30, 310, 72, 23);
+        jButton3.setBounds(100, 380, 72, 23);
 
         Jbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Minuman", "Makanan" }));
         Jbox.addActionListener(this::JboxActionPerformed);
         jPanel1.add(Jbox);
-        Jbox.setBounds(30, 200, 100, 22);
+        Jbox.setBounds(380, 330, 100, 22);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("INVENTORY MANAGEMENT SYSTEM");
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(90, 50, 330, 25);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Stok");
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(20, 220, 90, 30);
+
+        inStok1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        inStok1.addActionListener(this::inStok1ActionPerformed);
+        jPanel1.add(inStok1);
+        inStok1.setBounds(140, 270, 340, 30);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -214,6 +247,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void inStok1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inStok1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inStok1ActionPerformed
+
     private void JboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JboxActionPerformed
         int a = Jbox.getSelectedIndex();
     }//GEN-LAST:event_JboxActionPerformed
@@ -233,13 +270,15 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField inCode;
     private javax.swing.JTextField inNama;
     private javax.swing.JTextField inStok;
+    private javax.swing.JTextField inStok1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea output;

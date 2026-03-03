@@ -1,2 +1,4 @@
 .vscode/
 *.class
+/src/storage/view/JavaApplication13/nbproject/private/
+/src/storage/view/JavaApplication14/nbproject/private/
