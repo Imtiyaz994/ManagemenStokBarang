@@ -507,7 +507,7 @@ public class LoginPage extends javax.swing.JFrame {
                         if (Password.equals(passDb)) {
                             
                             // login berhasil → buka MainFrame
-                            MainFrame mainFrame = new MainFrame(role);
+                            MainFrame mainFrame = new MainFrame(role, username);
                             mainFrame.setSize(1190, 710);
                             mainFrame.setLocationRelativeTo(null);
                             mainFrame.setResizable(false);

@@ -1,4 +1,3 @@
-
 package storage.view;
 
 import storage.component.TableStyler;
@@ -12,10 +11,14 @@ import javax.swing.table.TableModel;
 
 
 public class PanelListBarang extends javax.swing.JPanel {
+    
+    private final String username;
 
-    public PanelListBarang() {
+    public PanelListBarang(String username) {
+        this.username = username;
+        
         initComponents();
-        TableStyler.style(table);
+        TableStyler.style(tableBarang);
         btnEdit.setEnabled(false);
         loadTableData();
     }
@@ -41,7 +44,7 @@ public class PanelListBarang extends javax.swing.JPanel {
 }
 
     public void loadTableData() {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        DefaultTableModel model = (DefaultTableModel) tableBarang.getModel();
         model.setRowCount(0);
         try {
             Connection con = DBConnection.getConnection();
@@ -66,14 +69,33 @@ public class PanelListBarang extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-
+    
+    public static void simpanRiwayat (String nama, String kode, String jenis, int stok, String aksi, String user) {
+        String query = "INSERT INTO riwayat (nama, kode, jenis, stok, aksi, user_aksi, tanggal) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+        
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, nama);
+            pst.setString(2, kode);
+            pst.setString(3, jenis);
+            pst.setInt(4, stok);
+            pst.setString(5, aksi);
+            pst.setString(6, user);
+            pst.executeUpdate();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        tableBarang = new javax.swing.JTable();
         panelLowStok = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         lowStockCount = new javax.swing.JLabel();
@@ -115,7 +137,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         add(jLabel1);
         jLabel1.setBounds(120, 30, 127, 32);
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
+        tableBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -131,18 +153,18 @@ public class PanelListBarang extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        table.setFocusable(false);
-        table.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableBarang.setFocusable(false);
+        tableBarang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableMouseClicked(evt);
+                tableBarangMouseClicked(evt);
             }
         });
-        table.addComponentListener(new java.awt.event.ComponentAdapter() {
+        tableBarang.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
-                tableComponentShown(evt);
+                tableBarangComponentShown(evt);
             }
         });
-        jScrollPane1.setViewportView(table);
+        jScrollPane1.setViewportView(tableBarang);
 
         add(jScrollPane1);
         jScrollPane1.setBounds(30, 80, 870, 320);
@@ -293,7 +315,7 @@ public class PanelListBarang extends javax.swing.JPanel {
 
         cbxJenis.setBackground(Color.WHITE);
         cbxJenis.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        cbxJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elektronik", "Makanan", "Obat", "Pakaian", " " }));
+        cbxJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elektronik", "Makanan", "Obat", "Pakaian", "ATK" }));
         cbxJenis.setFocusable(false);
         cbxJenis.setOpaque(true);
         PanelInput.add(cbxJenis);
@@ -315,10 +337,10 @@ public class PanelListBarang extends javax.swing.JPanel {
         jLabel30.setBounds(40, 10, 70, 70);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        int index = table.getSelectedRow();
-
-        TableModel model = table.getModel();
+    private void tableBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBarangMouseClicked
+        int index = tableBarang.getSelectedRow();
+        if (index == -1) return;
+        TableModel model = tableBarang.getModel();
 
         String nama = model.getValueAt(index, 0).toString();
         txtNama.setText(nama);
@@ -339,11 +361,11 @@ public class PanelListBarang extends javax.swing.JPanel {
 
         btnEdit.setEnabled(true);
         btnTambah.setEnabled(false);
-    }//GEN-LAST:event_tableMouseClicked
+    }//GEN-LAST:event_tableBarangMouseClicked
 
-    private void tableComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tableComponentShown
+    private void tableBarangComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tableBarangComponentShown
         loadTableData();
-    }//GEN-LAST:event_tableComponentShown
+    }//GEN-LAST:event_tableBarangComponentShown
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         String nama = txtNama.getText().trim();
@@ -370,7 +392,7 @@ public class PanelListBarang extends javax.swing.JPanel {
                     return;
                 }
 
-                String query = "INSERT INTO barang (nama, kode, jenis, stok, infotambah) VALUES (?,? ,? ,?, ?)";
+                String query = "INSERT INTO barang (nama, kode, jenis, stok, infotambah) VALUES (?, ? ,? ,?, ?)";
                 PreparedStatement pst = con.prepareStatement(query);
                 pst.setString(1, nama);
                 pst.setString(2, kode);
@@ -380,9 +402,16 @@ public class PanelListBarang extends javax.swing.JPanel {
                 pst.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan!");
+                simpanRiwayat(
+                    txtNama.getText().trim(),
+                    txtKode.getText().trim(),
+                    (String) cbxJenis.getSelectedItem(),
+                    Integer.parseInt(txtStok.getText().trim()),
+                    "Tambah",
+                    username
+                );
 
                 loadTableData();
-
                 txtNama.setText("");
                 txtKode.setText("");
                 txtStok.setText("");
@@ -407,8 +436,16 @@ public class PanelListBarang extends javax.swing.JPanel {
                 pst.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+                simpanRiwayat(
+                    txtNama.getText().trim(),
+                    txtKode.getText().trim(),
+                    (String) cbxJenis.getSelectedItem(),
+                    Integer.parseInt(txtStok.getText().trim()),
+                    "Hapus",
+                    username
+                );
+                
                 loadTableData();
-
                 txtNama.setText("");
                 txtKode.setText("");
                 txtStok.setText("");
@@ -421,7 +458,6 @@ public class PanelListBarang extends javax.swing.JPanel {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
             }
-
         }
     }//GEN-LAST:event_btnHapusActionPerformed
 
@@ -449,7 +485,15 @@ public class PanelListBarang extends javax.swing.JPanel {
                 pst.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Data berhasil diedit!");
-
+                simpanRiwayat(
+                    txtNama.getText().trim(),
+                    txtKode.getText().trim(),
+                    (String) cbxJenis.getSelectedItem(),
+                    Integer.parseInt(txtStok.getText().trim()),
+                    "Edit",
+                    username
+                );
+                
                 loadTableData();
                 txtNama.setText("");
                 txtKode.setText("");
@@ -474,7 +518,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         cbxJenis.setSelectedIndex(0);
 
         txtKode.setEditable(true);
-        table.clearSelection();
+        tableBarang.clearSelection();
         btnEdit.setEnabled(false);
         btnTambah.setEnabled(true);
     }//GEN-LAST:event_btnBatalActionPerformed
@@ -508,7 +552,7 @@ public class PanelListBarang extends javax.swing.JPanel {
     private javax.swing.JLabel lowStockCount;
     private javax.swing.JPanel panelLowStok;
     private javax.swing.JPanel panelTotalItem;
-    private javax.swing.JTable table;
+    private javax.swing.JTable tableBarang;
     private javax.swing.JLabel totalItemCount;
     private javax.swing.JTextField txtInfo;
     private javax.swing.JTextField txtKode;

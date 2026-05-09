@@ -1,4 +1,3 @@
-
 package storage.view;
 
 import java.awt.BorderLayout;
