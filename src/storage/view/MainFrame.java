@@ -39,6 +39,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnManageUser = new javax.swing.JButton();
         jLabel32 = new javax.swing.JLabel();
         btnRiwayat = new javax.swing.JButton();
+        btnLaporan = new javax.swing.JButton();
         Parent = new javax.swing.JPanel();
 
         jTextField2.setText("jTextField2");
@@ -68,7 +69,7 @@ public class MainFrame extends javax.swing.JFrame {
         sidebar.add(jLabel2);
         jLabel2.setBounds(70, 130, 104, 25);
         sidebar.add(jSeparator2);
-        jSeparator2.setBounds(40, 350, 160, 19);
+        jSeparator2.setBounds(40, 420, 160, 10);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -83,9 +84,9 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel8.setText("SYSTEM");
         jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         sidebar.add(jLabel8);
-        jLabel8.setBounds(80, 190, 80, 25);
+        jLabel8.setBounds(80, 180, 80, 25);
         sidebar.add(jSeparator3);
-        jSeparator3.setBounds(40, 220, 160, 20);
+        jSeparator3.setBounds(40, 215, 160, 10);
 
         btnDashboard.setBackground(new java.awt.Color(0, 102, 102));
         btnDashboard.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -103,7 +104,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnListBarang.setFocusable(false);
         btnListBarang.addActionListener(this::btnListBarangActionPerformed);
         sidebar.add(btnListBarang);
-        btnListBarang.setBounds(60, 310, 120, 27);
+        btnListBarang.setBounds(60, 380, 120, 27);
 
         btnManageUser.setBackground(new java.awt.Color(0, 102, 102));
         btnManageUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -112,7 +113,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnManageUser.setFocusable(false);
         btnManageUser.addActionListener(this::btnManageUserActionPerformed);
         sidebar.add(btnManageUser);
-        btnManageUser.setBounds(60, 380, 120, 27);
+        btnManageUser.setBounds(60, 450, 120, 27);
 
         jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storage/icon/truck.png"))); // NOI18N
         sidebar.add(jLabel32);
@@ -125,7 +126,16 @@ public class MainFrame extends javax.swing.JFrame {
         btnRiwayat.setFocusable(false);
         btnRiwayat.addActionListener(this::btnRiwayatActionPerformed);
         sidebar.add(btnRiwayat);
-        btnRiwayat.setBounds(60, 270, 120, 27);
+        btnRiwayat.setBounds(60, 330, 120, 27);
+
+        btnLaporan.setBackground(new java.awt.Color(0, 102, 102));
+        btnLaporan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLaporan.setForeground(new java.awt.Color(250, 250, 250));
+        btnLaporan.setText("Laporan");
+        btnLaporan.setFocusable(false);
+        btnLaporan.addActionListener(this::btnLaporanActionPerformed);
+        sidebar.add(btnLaporan);
+        btnLaporan.setBounds(60, 280, 120, 27);
 
         getContentPane().add(sidebar);
         sidebar.setBounds(0, 0, 248, 1275);
@@ -182,11 +192,16 @@ public class MainFrame extends javax.swing.JFrame {
         Parent.revalidate();
     }//GEN-LAST:event_btnRiwayatActionPerformed
 
+    private void btnLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaporanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLaporanActionPerformed
+
     public static void main(String args[]) {}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Parent;
     private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnLaporan;
     private javax.swing.JButton btnListBarang;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageUser;
