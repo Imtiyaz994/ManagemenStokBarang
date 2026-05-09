@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

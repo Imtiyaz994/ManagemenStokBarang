@@ -1,5 +1,6 @@
-package storage.component;
+package storage.component.util;
 
+import storage.component.util.GraphicsUtilities;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 

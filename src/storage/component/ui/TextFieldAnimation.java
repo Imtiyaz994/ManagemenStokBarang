@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.ui;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -25,6 +25,8 @@ import javax.swing.border.EmptyBorder;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+import storage.component.util.EventCallBack;
+import storage.component.util.EventTextField;
 
 public class TextFieldAnimation extends JTextField {
 

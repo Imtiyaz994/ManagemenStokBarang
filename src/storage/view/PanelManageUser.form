@@ -298,9 +298,9 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="storage.component.TextField" name="txtUsername">
+        <Component class="storage.component.ui.TextField" name="txtUsername">
         </Component>
-        <Component class="storage.component.TextField" name="txtEmail">
+        <Component class="storage.component.ui.TextField" name="txtEmail">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="Email"/>
           </Properties>
@@ -308,19 +308,19 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEmailActionPerformed"/>
           </Events>
         </Component>
-        <Component class="storage.component.PasswordField" name="txtPassword">
+        <Component class="storage.component.ui.PasswordField" name="txtPassword">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPasswordActionPerformed"/>
           </Events>
         </Component>
-        <Component class="storage.component.PasswordField" name="txtConPassword">
+        <Component class="storage.component.ui.PasswordField" name="txtConPassword">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="Confirm Password"/>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="storage.component.RoundedButton" name="btnDeleteUser">
+    <Component class="storage.component.ui.RoundedButton" name="btnDeleteUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -337,7 +337,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="storage.component.RoundedButton" name="btnAddUser">
+    <Component class="storage.component.ui.RoundedButton" name="btnAddUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add User"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -354,7 +354,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="storage.component.RoundedButton" name="btnUpdateUser">
+    <Component class="storage.component.ui.RoundedButton" name="btnUpdateUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="Update"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -371,7 +371,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="storage.component.RoundedButton" name="btnClearUser">
+    <Component class="storage.component.ui.RoundedButton" name="btnClearUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="Clear"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">

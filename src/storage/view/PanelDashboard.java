@@ -21,7 +21,7 @@ public class PanelDashboard extends javax.swing.JPanel {
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
     try {
-        Connection con = storage.component.DBConnection.getConnection();
+        Connection con = storage.component.util.DBConnection.getConnection();
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(
             "SELECT jenis, SUM(stok) as total FROM barang GROUP BY jenis"

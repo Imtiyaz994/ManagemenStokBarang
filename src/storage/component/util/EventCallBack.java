@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.util;
 
 public interface EventCallBack {
 

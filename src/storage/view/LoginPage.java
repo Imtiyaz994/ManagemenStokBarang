@@ -3,7 +3,7 @@ package storage.view;
 import java.awt.Color;
 import java.sql.*;
 import javax.swing.JOptionPane;
-import storage.component.DBConnection;
+import storage.component.util.DBConnection;
 
 // halaman login & register
 public class LoginPage extends javax.swing.JFrame {
@@ -31,11 +31,11 @@ public class LoginPage extends javax.swing.JFrame {
         cBox = new javax.swing.JCheckBox();
         jLabel13 = new javax.swing.JLabel();
         lblToRegister = new javax.swing.JLabel();
-        txtUsername = new storage.component.TextField();
-        txtPassword = new storage.component.PasswordField();
+        txtUsername = new storage.component.ui.TextField();
+        txtPassword = new storage.component.ui.PasswordField();
         jLabel6 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        btnSignUp = new storage.component.RoundedButton();
+        btnSignUp = new storage.component.ui.RoundedButton();
         panelRegister = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -46,15 +46,15 @@ public class LoginPage extends javax.swing.JFrame {
         cBoxSU = new javax.swing.JCheckBox();
         jLabel26 = new javax.swing.JLabel();
         lblToLogin = new javax.swing.JLabel();
-        suUsername = new storage.component.TextField();
-        suEmail = new storage.component.TextField();
+        suUsername = new storage.component.ui.TextField();
+        suEmail = new storage.component.ui.TextField();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        suPassword = new storage.component.PasswordField();
+        suPassword = new storage.component.ui.PasswordField();
         jLabel32 = new javax.swing.JLabel();
-        suConPassword = new storage.component.PasswordField();
+        suConPassword = new storage.component.ui.PasswordField();
         jLabel33 = new javax.swing.JLabel();
-        btnSignIn = new storage.component.RoundedButton();
+        btnSignIn = new storage.component.ui.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login Page");
@@ -608,8 +608,8 @@ public class LoginPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Parent;
-    private storage.component.RoundedButton btnSignIn;
-    private storage.component.RoundedButton btnSignUp;
+    private storage.component.ui.RoundedButton btnSignIn;
+    private storage.component.ui.RoundedButton btnSignUp;
     private javax.swing.JCheckBox cBox;
     private javax.swing.JCheckBox cBoxSU;
     private javax.swing.JLabel jLabel1;
@@ -640,12 +640,12 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.JPanel panelKiri;
     private javax.swing.JPanel panelLogin;
     private javax.swing.JPanel panelRegister;
-    private storage.component.PasswordField suConPassword;
-    private storage.component.TextField suEmail;
-    private storage.component.PasswordField suPassword;
-    private storage.component.TextField suUsername;
-    private storage.component.PasswordField txtPassword;
-    private storage.component.TextField txtUsername;
+    private storage.component.ui.PasswordField suConPassword;
+    private storage.component.ui.TextField suEmail;
+    private storage.component.ui.PasswordField suPassword;
+    private storage.component.ui.TextField suUsername;
+    private storage.component.ui.PasswordField txtPassword;
+    private storage.component.ui.TextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
 }

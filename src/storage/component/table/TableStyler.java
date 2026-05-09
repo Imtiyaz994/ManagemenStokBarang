@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.table;
 
 import java.awt.Color;
 import java.awt.Dimension;

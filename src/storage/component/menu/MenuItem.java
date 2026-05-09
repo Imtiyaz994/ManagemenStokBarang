@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.menu;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import storage.component.RippleEffect;
-import storage.component.ShadowRenderer;
+import storage.component.effect.RippleEffect;
+import storage.component.util.ShadowRenderer;
 
 public class MenuItem extends JButton {
 

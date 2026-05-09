@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.menu;
 
 import java.awt.Component;
 import net.miginfocom.swing.MigLayout;

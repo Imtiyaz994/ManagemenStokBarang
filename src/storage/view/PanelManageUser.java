@@ -5,8 +5,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 import java.sql.*;
-import storage.component.DBConnection;
-import storage.component.TableStyler;
+import storage.component.util.DBConnection;
+import storage.component.table.TableStyler;
 
 public class PanelManageUser extends javax.swing.JPanel {
     
@@ -61,14 +61,14 @@ public class PanelManageUser extends javax.swing.JPanel {
         boxRole = new javax.swing.JComboBox<>();
         jLabel29 = new javax.swing.JLabel();
         boxStatus = new javax.swing.JComboBox<>();
-        txtUsername = new storage.component.TextField();
-        txtEmail = new storage.component.TextField();
-        txtPassword = new storage.component.PasswordField();
-        txtConPassword = new storage.component.PasswordField();
-        btnDeleteUser = new storage.component.RoundedButton();
-        btnAddUser = new storage.component.RoundedButton();
-        btnUpdateUser = new storage.component.RoundedButton();
-        btnClearUser = new storage.component.RoundedButton();
+        txtUsername = new storage.component.ui.TextField();
+        txtEmail = new storage.component.ui.TextField();
+        txtPassword = new storage.component.ui.PasswordField();
+        txtConPassword = new storage.component.ui.PasswordField();
+        btnDeleteUser = new storage.component.ui.RoundedButton();
+        btnAddUser = new storage.component.ui.RoundedButton();
+        btnUpdateUser = new storage.component.ui.RoundedButton();
+        btnClearUser = new storage.component.ui.RoundedButton();
         jLabel31 = new javax.swing.JLabel();
 
         setBackground(Color.WHITE);
@@ -456,10 +456,10 @@ public class PanelManageUser extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxRole;
     private javax.swing.JComboBox<String> boxStatus;
-    private storage.component.RoundedButton btnAddUser;
-    private storage.component.RoundedButton btnClearUser;
-    private storage.component.RoundedButton btnDeleteUser;
-    private storage.component.RoundedButton btnUpdateUser;
+    private storage.component.ui.RoundedButton btnAddUser;
+    private storage.component.ui.RoundedButton btnClearUser;
+    private storage.component.ui.RoundedButton btnDeleteUser;
+    private storage.component.ui.RoundedButton btnUpdateUser;
     private javax.swing.JCheckBox checkPassword;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -473,10 +473,10 @@ public class PanelManageUser extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelUserDetails;
-    private storage.component.PasswordField txtConPassword;
-    private storage.component.TextField txtEmail;
-    private storage.component.PasswordField txtPassword;
-    private storage.component.TextField txtUsername;
+    private storage.component.ui.PasswordField txtConPassword;
+    private storage.component.ui.TextField txtEmail;
+    private storage.component.ui.PasswordField txtPassword;
+    private storage.component.ui.TextField txtUsername;
     private javax.swing.JTable userTable;
     // End of variables declaration//GEN-END:variables
 }

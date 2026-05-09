@@ -1,25 +1,39 @@
-package storage.component;
+package storage.component.ui;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Rectangle2D;
-
-import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-public class TextField extends JTextField {
+// custom password field 
+public class PasswordField extends JPasswordField {
+
+    public boolean isShowAndHide() {
+        return showAndHide;
+    }
+
+    public void setShowAndHide(boolean showAndHide) {
+        this.showAndHide = showAndHide;
+        repaint();
+    }
 
     public String getLabelText() {
         return labelText;
@@ -42,11 +56,15 @@ public class TextField extends JTextField {
     private float location;
     private boolean show;
     private boolean mouseOver = false;
-    private String labelText = "Username";
-    private Color lineColor = new Color(3, 155, 216);
+    private String labelText = "Password";  // teks placeholder 
+    private Color lineColor = new Color(3, 155, 216);   // warna garis bawah
+    private final Image eye;
+    private final Image eye_hide;
+    private boolean hide = true;
+    private boolean showAndHide;
 
-    public TextField() {
-        setBorder(new EmptyBorder(20, 3, 10, 3));
+    public PasswordField() {
+        setBorder(new EmptyBorder(20, 3, 10, 30));
         setSelectionColor(new Color(76, 204, 255));
         addMouseListener(new MouseAdapter() {
             @Override
@@ -60,22 +78,51 @@ public class TextField extends JTextField {
                 mouseOver = false;
                 repaint();
             }
+
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (showAndHide) {
+                    int x = getWidth() - 30;
+                    if (new Rectangle(x, 0, 30, 30).contains(me.getPoint())) {
+                        hide = !hide;
+                        if (hide) {
+                            setEchoChar('*');
+                        } else {
+                            setEchoChar((char) 0);
+                        }
+                        repaint();
+                    }
+                }
+            }
         });
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent fe) {
-                showing(false); // label naik pas diklik
+                showing(false);
             }
 
             @Override
             public void focusLost(FocusEvent fe) {
-                showing(true);  // label balik pas keluar focus
+                showing(true);
+            }
+        });
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent me) {
+                if (showAndHide) {
+                    int x = getWidth() - 30;
+                    if (new Rectangle(x, 0, 30, 30).contains(me.getPoint())) {
+                        setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    } else {
+                        setCursor(new Cursor(Cursor.TEXT_CURSOR));
+                    }
+                }
             }
         });
         TimingTarget target = new TimingTargetAdapter() {
             @Override
             public void begin() {
-                animateHinText = getText().equals("");
+                animateHinText = String.valueOf(getPassword()).equals("");
             }
 
             @Override
@@ -85,6 +132,10 @@ public class TextField extends JTextField {
             }
 
         };
+        eye = new ImageIcon(getClass().getResource("/storage/icon/eye.png")).getImage();
+        eye_hide = new ImageIcon(getClass().getResource("/storage/icon/eye_hide.png")).getImage();
+        
+         // setup animator buat animasi label
         animator = new Animator(300, target);
         animator.setResolution(0);
         animator.setAcceleration(0.5f);
@@ -112,7 +163,7 @@ public class TextField extends JTextField {
         int width = getWidth();
         int height = getHeight();
         
-        // garis bawah, biru kalo hover, default abu abu
+        // garis bawah di passwordfield jadi biru kalo hover, abu kalo enggak
         if (mouseOver) {
             g2.setColor(lineColor);
         } else {
@@ -121,7 +172,16 @@ public class TextField extends JTextField {
         g2.fillRect(2, height - 1, width - 4, 1);
         createHintText(g2);
         createLineStyle(g2);
+        if (showAndHide) {
+            createShowHide(g2);
+        }
         g2.dispose();
+    }
+
+    private void createShowHide(Graphics2D g2) {
+        int x = getWidth() - 30 + 5;
+        int y = (getHeight() - 20) / 2;
+        g2.drawImage(hide ? eye_hide : eye, x, y, null);
     }
     
     // animasi label placeholder naik turun
@@ -142,10 +202,9 @@ public class TextField extends JTextField {
         } else {
             size = 18;
         }
-        g2.drawString(labelText, in.right, (int) (in.top + textY + ft.getAscent() - size));
+        g2.drawString(labelText, in.left, (int) (in.top + textY + ft.getAscent() - size));
     }
 
-    // garis bawah animasi pas focus
     private void createLineStyle(Graphics2D g2) {
         if (isFocusOwner()) {
             double width = getWidth() - 4;
@@ -164,7 +223,7 @@ public class TextField extends JTextField {
 
     @Override
     public void setText(String string) {
-        if (!getText().equals(string)) {
+        if (!String.valueOf(getPassword()).equals(string)) {
             showing(string.equals(""));
         }
         super.setText(string);

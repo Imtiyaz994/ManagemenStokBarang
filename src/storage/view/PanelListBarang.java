@@ -1,7 +1,7 @@
 package storage.view;
 
-import storage.component.TableStyler;
-import storage.component.DBConnection;
+import storage.component.table.TableStyler;
+import storage.component.util.DBConnection;
 import java.sql.*;
 
 import java.awt.Color;
@@ -318,6 +318,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         cbxJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elektronik", "Makanan", "Obat", "Pakaian", "ATK" }));
         cbxJenis.setFocusable(false);
         cbxJenis.setOpaque(true);
+        cbxJenis.addActionListener(this::cbxJenisActionPerformed);
         PanelInput.add(cbxJenis);
         cbxJenis.setBounds(120, 140, 280, 30);
 
@@ -522,6 +523,10 @@ public class PanelListBarang extends javax.swing.JPanel {
         btnEdit.setEnabled(false);
         btnTambah.setEnabled(true);
     }//GEN-LAST:event_btnBatalActionPerformed
+
+    private void cbxJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxJenisActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxJenisActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

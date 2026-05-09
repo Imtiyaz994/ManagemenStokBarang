@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.util;
 
 import java.awt.Component;
 import java.awt.Graphics;

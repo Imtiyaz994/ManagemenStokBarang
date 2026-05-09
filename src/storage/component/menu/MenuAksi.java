@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.menu;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -14,7 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 
-public class MenuJenis extends JComponent {
+public class MenuAksi extends JComponent {
 
     public MenuEvent getEvent() {
         return event;
@@ -27,11 +27,11 @@ public class MenuJenis extends JComponent {
     private MenuEvent event;
     private MigLayout layout;
     private String[][] menuItems = new String[][]{
-        {"Jenis", "Elektronik", "Makanan", "Obat", "Pakaian"},
+        {"Aksi", "Menambah", "Mengurang"},
         
     };
 
-    public MenuJenis() {
+    public MenuAksi() {
         init();
     }
 
@@ -89,7 +89,7 @@ public class MenuJenis extends JComponent {
     private void addSubMenu(MenuItem item, int index, int length, int indexZorder) {
         JPanel panel = new JPanel(new MigLayout("wrap 1, fillx, inset 0, gapy 0", "fill"));
         panel.setName(index + "");
-        panel.setBackground(new Color(0, 120, 120));
+        panel.setBackground(new Color(0, 150, 150));
         for (int i = 1; i < length; i++) {
             MenuItem subItem = new MenuItem(menuItems[index][i], i, false);
             subItem.addActionListener(new ActionListener() {

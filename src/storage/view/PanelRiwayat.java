@@ -6,10 +6,10 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
-import storage.component.DBConnection;
-import storage.component.EventCallBack;
-import storage.component.EventTextField;
-import storage.component.TableStyler;
+import storage.component.util.DBConnection;
+import storage.component.util.EventCallBack;
+import storage.component.util.EventTextField;
+import storage.component.table.TableStyler;
 
 public class PanelRiwayat extends javax.swing.JPanel {
 
@@ -82,12 +82,12 @@ public class PanelRiwayat extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        textFieldAnimation = new storage.component.TextFieldAnimation();
+        textFieldAnimation = new storage.component.ui.TextFieldAnimation();
         dateRiwayat = new com.toedter.calendar.JDateChooser();
         btnRiwayatRefresh = new javax.swing.JButton();
-        menuUser1 = new storage.component.MenuUser();
-        menuJenis2 = new storage.component.MenuJenis();
-        menuAksi1 = new storage.component.MenuAksi();
+        menuUser1 = new storage.component.menu.MenuUser();
+        menuJenis2 = new storage.component.menu.MenuJenis();
+        menuAksi1 = new storage.component.menu.MenuAksi();
         jSeparator1 = new javax.swing.JSeparator();
 
         setBackground(Color.WHITE);
@@ -192,11 +192,11 @@ public class PanelRiwayat extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private storage.component.MenuAksi menuAksi1;
-    private storage.component.MenuJenis menuJenis2;
-    private storage.component.MenuUser menuUser1;
+    private storage.component.menu.MenuAksi menuAksi1;
+    private storage.component.menu.MenuJenis menuJenis2;
+    private storage.component.menu.MenuUser menuUser1;
     private javax.swing.JTable tableRiwayat;
-    private storage.component.TextFieldAnimation textFieldAnimation;
+    private storage.component.ui.TextFieldAnimation textFieldAnimation;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -1,5 +1,8 @@
-package storage.component;
+package storage.component.menu;
 
+import storage.component.menu.MenuItem;
+import storage.component.menu.MenuEvent;
+import storage.component.menu.MenuAnimation;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -14,7 +17,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 
-public class MenuAksi extends JComponent {
+public class MenuUser extends JComponent {
 
     public MenuEvent getEvent() {
         return event;
@@ -27,11 +30,11 @@ public class MenuAksi extends JComponent {
     private MenuEvent event;
     private MigLayout layout;
     private String[][] menuItems = new String[][]{
-        {"Aksi", "Menambah", "Mengurang"},
+        {"User",""},
         
     };
 
-    public MenuAksi() {
+    public MenuUser() {
         init();
     }
 

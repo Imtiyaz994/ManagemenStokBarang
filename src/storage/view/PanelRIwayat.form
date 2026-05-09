@@ -190,7 +190,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="storage.component.TextFieldAnimation" name="textFieldAnimation">
+            <Component class="storage.component.ui.TextFieldAnimation" name="textFieldAnimation">
               <Properties>
                 <Property name="animationColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="66" red="0" type="rgb"/>
@@ -233,21 +233,21 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="storage.component.MenuUser" name="menuUser1">
+            <Component class="storage.component.menu.MenuUser" name="menuUser1">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="680" y="90" width="111" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="storage.component.MenuJenis" name="menuJenis2">
+            <Component class="storage.component.menu.MenuJenis" name="menuJenis2">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="440" y="90" width="111" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="storage.component.MenuAksi" name="menuAksi1">
+            <Component class="storage.component.menu.MenuAksi" name="menuAksi1">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="560" y="90" width="111" height="-1"/>

@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;

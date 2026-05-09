@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.effect;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

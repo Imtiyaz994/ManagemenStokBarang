@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.effect;
 
 import java.awt.Point;
 import java.awt.geom.GeneralPath;

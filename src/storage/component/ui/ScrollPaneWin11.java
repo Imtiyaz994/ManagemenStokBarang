@@ -1,4 +1,4 @@
-package storage.component;
+package storage.component.ui;
 
 import java.awt.Container;
 import java.awt.EventQueue;

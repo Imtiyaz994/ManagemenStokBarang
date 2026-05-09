@@ -321,12 +321,12 @@
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblToRegisterMouseExited"/>
               </Events>
             </Component>
-            <Component class="storage.component.TextField" name="txtUsername">
+            <Component class="storage.component.ui.TextField" name="txtUsername">
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUsernameActionPerformed"/>
               </Events>
             </Component>
-            <Component class="storage.component.PasswordField" name="txtPassword">
+            <Component class="storage.component.ui.PasswordField" name="txtPassword">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
@@ -342,7 +342,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="storage.component.RoundedButton" name="btnSignUp">
+            <Component class="storage.component.ui.RoundedButton" name="btnSignUp">
               <Properties>
                 <Property name="text" type="java.lang.String" value="LOGIN"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -585,9 +585,9 @@
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblToLoginMouseExited"/>
               </Events>
             </Component>
-            <Component class="storage.component.TextField" name="suUsername">
+            <Component class="storage.component.ui.TextField" name="suUsername">
             </Component>
-            <Component class="storage.component.TextField" name="suEmail">
+            <Component class="storage.component.ui.TextField" name="suEmail">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="Email"/>
               </Properties>
@@ -609,7 +609,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="storage.component.PasswordField" name="suPassword">
+            <Component class="storage.component.ui.PasswordField" name="suPassword">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel32">
               <Properties>
@@ -618,7 +618,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="storage.component.PasswordField" name="suConPassword">
+            <Component class="storage.component.ui.PasswordField" name="suConPassword">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="Confirm Password"/>
               </Properties>
@@ -630,7 +630,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="storage.component.RoundedButton" name="btnSignIn">
+            <Component class="storage.component.ui.RoundedButton" name="btnSignIn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="REGISTER"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">

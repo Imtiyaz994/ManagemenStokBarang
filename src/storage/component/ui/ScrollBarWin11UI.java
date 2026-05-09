@@ -1,6 +1,7 @@
-package storage.component;
+package storage.component.ui;
 
 
+import storage.component.effect.PolygonCorner;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;

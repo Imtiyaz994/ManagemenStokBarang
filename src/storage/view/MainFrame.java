@@ -193,7 +193,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRiwayatActionPerformed
 
     private void btnLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaporanActionPerformed
-        // TODO add your handling code here:
+        Parent.removeAll();
+        Parent.add(new PanelLaporan());
+        Parent.repaint();
+        Parent.revalidate();
     }//GEN-LAST:event_btnLaporanActionPerformed
 
     public static void main(String args[]) {}
