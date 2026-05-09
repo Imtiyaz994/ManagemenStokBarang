@@ -62,7 +62,6 @@ public class TextFieldAnimation extends JTextField {
     public TextFieldAnimation() {
         super.setBackground(new Color(255, 255, 255, 0)); //  Remove background
         setOpaque(false);
-        setBorder(new EmptyBorder(10, 10, 10, 50)); //  Set Right border 50
         setFont(new java.awt.Font("sansserif", 0, 14));
         setSelectionColor(new Color(80, 199, 255));
         iconSearch = new ImageIcon(getClass().getResource("/storage/icon/search.png"));
