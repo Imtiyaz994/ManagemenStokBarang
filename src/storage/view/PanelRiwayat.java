@@ -1,12 +1,22 @@
 package storage.view;
 
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+
+import storage.component.DBConnection;
 import storage.component.EventCallBack;
 import storage.component.EventTextField;
+import storage.component.TableStyler;
 
 public class PanelRiwayat extends javax.swing.JPanel {
 
     public PanelRiwayat() {
         initComponents();
+        TableStyler.style(tableRiwayat);
+        loadTableRiwayat();
         
         textFieldAnimation.addEvent(new EventTextField() {
 
@@ -31,6 +41,34 @@ public class PanelRiwayat extends javax.swing.JPanel {
             }
         });
     }
+    
+    public void loadTableRiwayat () {
+        DefaultTableModel model = (DefaultTableModel) tableRiwayat.getModel();
+        model.setRowCount(0);
+        
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM riwayat");
+            
+            while (rs.next()) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                String tanggal = sdf.format(rs.getTimestamp("tanggal"));
+                model.addRow(new Object[]{
+                    rs.getString("nama"),
+                    rs.getString("kode"),
+                    rs.getString("jenis"),
+                    rs.getString("stok"),
+                    rs.getString("aksi"),
+                    rs.getString("user_aksi"),
+                    tanggal
+                });
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 
   
     @SuppressWarnings("unchecked")
@@ -52,30 +90,15 @@ public class PanelRiwayat extends javax.swing.JPanel {
         menuAksi1 = new storage.component.MenuAksi();
         jSeparator1 = new javax.swing.JSeparator();
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(940, 710));
+        setBackground(Color.WHITE);
 
+        jPanel1.setBackground(Color.WHITE);
+        jPanel1.setPreferredSize(new java.awt.Dimension(940, 710));
+        jPanel1.setLayout(null);
+
+        tableRiwayat.setBackground(Color.WHITE);
         tableRiwayat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
@@ -84,93 +107,51 @@ public class PanelRiwayat extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tableRiwayat);
 
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(30, 185, 880, 402);
+
         cbxRiwayatHalaman.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxRiwayatHalaman.addActionListener(this::cbxRiwayatHalamanActionPerformed);
+        jPanel1.add(cbxRiwayatHalaman);
+        cbxRiwayatHalaman.setBounds(838, 624, 72, 34);
 
         jLabel2.setText("Halaman");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(784, 633, 48, 16);
+
+        jPanel2.setBackground(Color.WHITE);
+        jPanel2.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 102));
         jLabel1.setText("Riwayat Aktivitas");
+        jPanel2.add(jLabel1);
+        jLabel1.setBounds(32, 24, 206, 57);
 
         textFieldAnimation.setAnimationColor(new java.awt.Color(0, 102, 102));
         textFieldAnimation.addActionListener(this::textFieldAnimationActionPerformed);
+        jPanel2.add(textFieldAnimation);
+        textFieldAnimation.setBounds(32, 87, 333, 43);
+        jPanel2.add(dateRiwayat);
+        dateRiwayat.setBounds(800, 90, 100, 38);
 
         btnRiwayatRefresh.setBackground(new java.awt.Color(242, 242, 242));
         btnRiwayatRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storage/icon/Refresh.png"))); // NOI18N
         btnRiwayatRefresh.setBorder(null);
         btnRiwayatRefresh.addActionListener(this::btnRiwayatRefreshActionPerformed);
+        jPanel2.add(btnRiwayatRefresh);
+        btnRiwayatRefresh.setBounds(371, 87, 51, 43);
+        jPanel2.add(menuUser1);
+        menuUser1.setBounds(680, 90, 111, 38);
+        jPanel2.add(menuJenis2);
+        menuJenis2.setBounds(440, 90, 111, 38);
+        jPanel2.add(menuAksi1);
+        menuAksi1.setBounds(560, 90, 111, 38);
+        jPanel2.add(jSeparator1);
+        jSeparator1.setBounds(0, 217, 940, 3);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(127, 127, 127))
-                    .addComponent(textFieldAnimation, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRiwayatRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(menuJenis2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menuAksi1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menuUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(menuAksi1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textFieldAnimation, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                            .addComponent(btnRiwayatRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(dateRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(menuUser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(menuJenis2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxRiwayatHalaman, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxRiwayatHalaman, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(17, 17, 17))
-        );
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(0, 0, 940, 179);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

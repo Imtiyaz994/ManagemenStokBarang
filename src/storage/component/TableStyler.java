@@ -16,5 +16,8 @@ public class TableStyler {
         t.setDefaultEditor(Object.class, null);
         t.setRowHeight(25);
         t.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        
+        t.setBackground(Color.WHITE); 
+        t.setFillsViewportHeight(true);
     }
 }

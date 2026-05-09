@@ -6,9 +6,11 @@ import javax.swing.JOptionPane;
 public class MainFrame extends javax.swing.JFrame {
     
     private final String userRole;
+    private final String username;
     
-    public MainFrame(String role) {
+    public MainFrame(String role, String username) {
         this.userRole = role;
+        this.username = username;
         initComponents(); 
     
         if (!userRole.equalsIgnoreCase("Admin")) {
@@ -36,6 +38,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnListBarang = new javax.swing.JButton();
         btnManageUser = new javax.swing.JButton();
         jLabel32 = new javax.swing.JLabel();
+        btnRiwayat = new javax.swing.JButton();
         Parent = new javax.swing.JPanel();
 
         jTextField2.setText("jTextField2");
@@ -91,7 +94,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnDashboard.setFocusable(false);
         btnDashboard.addActionListener(this::btnDashboardActionPerformed);
         sidebar.add(btnDashboard);
-        btnDashboard.setBounds(60, 240, 120, 27);
+        btnDashboard.setBounds(60, 230, 120, 27);
 
         btnListBarang.setBackground(new java.awt.Color(0, 102, 102));
         btnListBarang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -114,6 +117,15 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storage/icon/truck.png"))); // NOI18N
         sidebar.add(jLabel32);
         jLabel32.setBounds(80, 40, 110, 80);
+
+        btnRiwayat.setBackground(new java.awt.Color(0, 102, 102));
+        btnRiwayat.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnRiwayat.setForeground(new java.awt.Color(250, 250, 250));
+        btnRiwayat.setText("Riwayat");
+        btnRiwayat.setFocusable(false);
+        btnRiwayat.addActionListener(this::btnRiwayatActionPerformed);
+        sidebar.add(btnRiwayat);
+        btnRiwayat.setBounds(60, 270, 120, 27);
 
         getContentPane().add(sidebar);
         sidebar.setBounds(0, 0, 248, 1275);
@@ -150,7 +162,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnListBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListBarangActionPerformed
         Parent.removeAll();
-        Parent.add(new PanelListBarang());
+        Parent.add(new PanelListBarang(username));
         Parent.repaint();
         Parent.revalidate();
         
@@ -163,6 +175,13 @@ public class MainFrame extends javax.swing.JFrame {
         Parent.revalidate();
     }//GEN-LAST:event_btnManageUserActionPerformed
 
+    private void btnRiwayatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRiwayatActionPerformed
+        Parent.removeAll();
+        Parent.add(new PanelRiwayat());
+        Parent.repaint();
+        Parent.revalidate();
+    }//GEN-LAST:event_btnRiwayatActionPerformed
+
     public static void main(String args[]) {}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -171,6 +190,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnListBarang;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageUser;
+    private javax.swing.JButton btnRiwayat;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel7;

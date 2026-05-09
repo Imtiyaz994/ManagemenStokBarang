@@ -10,11 +10,8 @@ test/
 *.class
 
 # Package files
-*.jar
 *.war
 *.ear
-!src/lib/
-!src/lib/*.jar
 
 # OS
 Thumbs.db
