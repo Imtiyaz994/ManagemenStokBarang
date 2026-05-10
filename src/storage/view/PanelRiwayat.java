@@ -368,6 +368,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(Color.WHITE);
+        setPreferredSize(new java.awt.Dimension(940, 710));
 
         jPanel1.setBackground(Color.WHITE);
         jPanel1.setPreferredSize(new java.awt.Dimension(940, 710));
@@ -385,17 +386,17 @@ public class PanelRiwayat extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tableRiwayat);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(30, 280, 880, 280);
+        jScrollPane1.setBounds(20, 260, 850, 270);
 
         cbxHalaman.addActionListener(this::cbxHalamanActionPerformed);
         jPanel1.add(cbxHalaman);
-        cbxHalaman.setBounds(810, 624, 100, 34);
+        cbxHalaman.setBounds(770, 550, 100, 34);
 
         jPanel2.setBackground(Color.WHITE);
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanel2.setLayout(null);
         jPanel2.add(dateChooser);
-        dateChooser.setBounds(810, 40, 100, 40);
+        dateChooser.setBounds(790, 40, 100, 40);
         jPanel2.add(jSeparator1);
         jSeparator1.setBounds(0, 217, 940, 3);
 
@@ -407,7 +408,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
         cbxAksi.setPreferredSize(new java.awt.Dimension(120, 30));
         cbxAksi.addActionListener(this::cbxAksiActionPerformed);
         jPanel2.add(cbxAksi);
-        cbxAksi.setBounds(550, 40, 120, 40);
+        cbxAksi.setBounds(530, 40, 120, 40);
 
         cbcxJenis.setBackground(Color.WHITE);
         cbcxJenis.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
@@ -417,7 +418,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
         cbcxJenis.setPreferredSize(new java.awt.Dimension(120, 30));
         cbcxJenis.addActionListener(this::cbcxJenisActionPerformed);
         jPanel2.add(cbcxJenis);
-        cbcxJenis.setBounds(440, 40, 100, 40);
+        cbcxJenis.setBounds(420, 40, 100, 40);
 
         cbxUser.setBackground(Color.WHITE);
         cbxUser.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
@@ -427,25 +428,25 @@ public class PanelRiwayat extends javax.swing.JPanel {
         cbxUser.setPreferredSize(new java.awt.Dimension(120, 30));
         cbxUser.addActionListener(this::cbxUserActionPerformed);
         jPanel2.add(cbxUser);
-        cbxUser.setBounds(680, 40, 120, 40);
+        cbxUser.setBounds(660, 40, 120, 40);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 102));
         jLabel3.setText("USER");
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(680, 20, 120, 16);
+        jLabel3.setBounds(660, 20, 120, 16);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 102));
         jLabel4.setText("JENIS");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(440, 20, 100, 16);
+        jLabel4.setBounds(420, 20, 100, 16);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 102));
         jLabel5.setText("AKSI");
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(550, 20, 120, 16);
+        jLabel5.setBounds(530, 20, 120, 16);
 
         btnRefresh.setBackground(new java.awt.Color(255, 255, 255));
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storage/icon/Refresh.png"))); // NOI18N
@@ -455,15 +456,15 @@ public class PanelRiwayat extends javax.swing.JPanel {
         btnRefresh.setColorOver(new java.awt.Color(255, 255, 255));
         btnRefresh.addActionListener(this::btnRefreshActionPerformed);
         jPanel2.add(btnRefresh);
-        btnRefresh.setBounds(30, 30, 43, 43);
+        btnRefresh.setBounds(20, 30, 43, 43);
 
         searchBar.setAnimationColor(new java.awt.Color(0, 102, 102));
         searchBar.addActionListener(this::searchBarActionPerformed);
         jPanel2.add(searchBar);
-        searchBar.setBounds(80, 30, 333, 43);
+        searchBar.setBounds(70, 30, 333, 43);
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 120, 940, 100);
+        jPanel2.setBounds(0, 120, 900, 100);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 102));
@@ -476,14 +477,15 @@ public class PanelRiwayat extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

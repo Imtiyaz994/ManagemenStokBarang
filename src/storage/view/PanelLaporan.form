@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -342,7 +342,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="storage.view.RoundedPanel" name="panelBarang">
+    <Container class="storage.component.ui.RoundedPanel" name="panelBarang">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="new Color(245, 245, 245)" type="code"/>
@@ -408,7 +408,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="storage.view.RoundedPanel" name="panelMasuk">
+    <Container class="storage.component.ui.RoundedPanel" name="panelMasuk">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="new Color(245, 245, 245)" type="code"/>
@@ -477,7 +477,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="storage.view.RoundedPanel" name="panelKeluar">
+    <Container class="storage.component.ui.RoundedPanel" name="panelKeluar">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="new Color(245, 245, 245)" type="code"/>
@@ -543,7 +543,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="storage.view.RoundedPanel" name="panelMenipis">
+    <Container class="storage.component.ui.RoundedPanel" name="panelMenipis">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="new Color(245, 245, 245)" type="code"/>
@@ -609,7 +609,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="storage.view.RoundedPanel" name="panelGrafik">
+    <Container class="storage.component.ui.RoundedPanel" name="panelGrafik">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="20" y="330" width="360" height="290"/>
@@ -638,7 +638,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="storage.view.RoundedPanel" name="panelRekap">
+    <Container class="storage.component.ui.RoundedPanel" name="panelRekap">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>

@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import storage.component.util.DBConnection;
 import storage.component.table.TableStyler;
 
@@ -28,12 +29,14 @@ public class PanelManageUser extends javax.swing.JPanel {
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM users");
         while (rs.next()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String tanggal = sdf.format(rs.getTimestamp("created_at"));
             model.addRow(new Object[]{
                 rs.getString("username"),
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getString("role"),
-                rs.getString("created_at"),
+                tanggal,
                 rs.getString("status")
             });
         }
@@ -87,7 +90,7 @@ public class PanelManageUser extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Username", "Email", "Password", "Role", "Created At", "Status"
+                "Username", "Email", "Password", "Role", "Tanggal", "Status"
             }
         ));
         userTable.setFocusable(false);

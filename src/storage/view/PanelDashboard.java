@@ -1,5 +1,6 @@
 package storage.view;
 
+import storage.component.ui.RoundedPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -9,6 +10,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import java.sql.*;
+import storage.component.table.TableStyler;
 
 public class PanelDashboard extends javax.swing.JPanel {
 
@@ -20,6 +22,7 @@ public class PanelDashboard extends javax.swing.JPanel {
     private void loadDashboard() {
         loadcard();
         tampilGrafik();
+        TableStyler.style(tableRekap);
         loadTabelBarang();
     }
     
@@ -70,7 +73,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error load grafik: " + e.getMessage());
         }
-        JFreeChart chart = ChartFactory.createBarChart ("Stok Barang", "Jenis", "Jumlah" dataset);
+        JFreeChart chart = ChartFactory.createBarChart ("Stok Barang", "Jenis", "Jumlah", dataset);
         
         ChartPanel cp = new ChartPanel(chart);
         panelgrafik.setLayout(new BorderLayout());
@@ -81,16 +84,19 @@ public class PanelDashboard extends javax.swing.JPanel {
     }
     
     private void loadTabelBarang() {
-        javax.swing.table.DefaultTableModel model =
-            (javax.swing.table.DefaultTableModel) jTable2.getModel();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tableRekap.getModel();
         model.setRowCount(0); 
         
         try {
             Connection con = storage.component.util.DBConnection.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT nama, stok FROM barang WHERE stok < 25 ORDER BY stok ASC");
+            ResultSet rs = st.executeQuery("SELECT nama, kode, stok FROM barang WHERE stok < 25 ORDER BY stok ASC");
             while (rs.next()) {
-                model.addRow(new Object[] {rs.getString("nama"), rs.getString("kode"), rs.getInt("stok")});
+                model.addRow(new Object[] {
+                    rs.getString("nama"), 
+                    rs.getString("kode"), 
+                    rs.getInt("stok")
+                });
             } 
             con.close();
         }
@@ -113,7 +119,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableRekap = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
         LowStok = new RoundedPanel();
         jLabel18 = new javax.swing.JLabel();
@@ -204,7 +210,7 @@ public class PanelDashboard extends javax.swing.JPanel {
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableRekap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -215,7 +221,7 @@ public class PanelDashboard extends javax.swing.JPanel {
                 "Nama", "Kode", "Stok"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(tableRekap);
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(0, 102, 102));
@@ -259,7 +265,7 @@ public class PanelDashboard extends javax.swing.JPanel {
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel19.setText("Stok < 15");
+        jLabel19.setText("Stok < 25");
 
         javax.swing.GroupLayout LowStokLayout = new javax.swing.GroupLayout(LowStok);
         LowStok.setLayout(LowStokLayout);
@@ -409,7 +415,7 @@ public class PanelDashboard extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel40;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel panelgrafik;
+    private javax.swing.JTable tableRekap;
     // End of variables declaration//GEN-END:variables
 }
