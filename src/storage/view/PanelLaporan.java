@@ -1,5 +1,7 @@
 package storage.view;
 
+import java.sql.*;
+
 import java.awt.Color;
 import storage.component.table.TableStyler;
 
@@ -8,6 +10,140 @@ public class PanelLaporan extends javax.swing.JPanel {
     public PanelLaporan() {
         initComponents();
         TableStyler.style(tableRekap);
+    }
+    
+    private void loadLaporan() {
+        String kategori = (String) boxKategori.getSelectedItem();
+        String dari     = (String) boxDari.getSelectedItem();
+        String sampai   = (String) boxSampai.getSelectedItem();
+        
+        // Validasi tanggal
+        String sqlDari, sqlSampai;
+        try {
+            java.text.SimpleDateFormat inputFmt = new java.text.SimpleDateFormat("dd/MM/yyyy");
+            java.text.SimpleDateFormat sqlFmt   = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date tDari   = inputFmt.parse(dari);
+            java.util.Date tSampai = inputFmt.parse(sampai);
+ 
+            if (tDari.after(tSampai)) {
+                jLabel2.setText("invalid");
+                jLabel2.setForeground(new java.awt.Color(231, 23, 68));
+                jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(
+                    new java.awt.Color(231, 23, 68)));
+                return;
+            } else {
+                jLabel2.setText("");
+                jLabel2.setBorder(null);
+            }
+ 
+            sqlDari   = sqlFmt.format(tDari);
+            sqlSampai = sqlFmt.format(tSampai);
+ 
+        } catch (Exception ex) {
+            jLabel2.setText("invalid");
+            jLabel2.setForeground(new java.awt.Color(231, 23, 68));
+            jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(
+                new java.awt.Color(231, 23, 68)));
+            return;
+        }
+ 
+        String whereKat = kategori.equalsIgnoreCase("Semua") ? "" : " AND jenis = '" + kategori + "'";
+ 
+        try (Connection con = storage.component.util.DBConnection.getConnection();
+             Statement st   = con.createStatement()) {
+ 
+            ResultSet rs;
+ 
+            // Total Barang
+            rs = st.executeQuery("SELECT COUNT(*) AS total FROM barang WHERE 1=1" + whereKat);
+            if (rs.next()) jLabel27.setText(String.valueOf(rs.getInt("total")));
+ 
+            // Barang Masuk
+            rs = st.executeQuery(
+                "SELECT COALESCE(SUM(jumlah),0) AS total FROM transaksi " +
+                "WHERE tipe='masuk' AND tanggal BETWEEN '" + sqlDari + "' AND '" + sqlSampai + "'" + whereKat);
+            if (rs.next()) jLabel10.setText(String.valueOf(rs.getInt("total")));
+ 
+            // Barang Keluar
+            rs = st.executeQuery(
+                "SELECT COALESCE(SUM(jumlah),0) AS total FROM transaksi " +
+                "WHERE tipe='keluar' AND tanggal BETWEEN '" + sqlDari + "' AND '" + sqlSampai + "'" + whereKat);
+            if (rs.next()) jLabel13.setText(String.valueOf(rs.getInt("total")));
+ 
+            // Stok Menipis
+            rs = st.executeQuery("SELECT COUNT(*) AS total FROM barang WHERE stok < 25" + whereKat);
+            if (rs.next()) jLabel16.setText(String.valueOf(rs.getInt("total")));
+ 
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+ 
+        loadTabelRekap(kategori);
+        tampilGrafik(sqlDari, sqlSampai);
+    }
+    
+    private void loadTabelRekap(String kategori) {
+        javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
+            new String[]{"Kode", "Nama Barang", "Kategori", "Stok"}, 0) {
+            public boolean isCellEditable(int r, int c) { return false; }
+        };
+        tableRekap.setModel(model);
+        TableStyler.style(tableRekap);
+ 
+        String whereKat = kategori.equalsIgnoreCase("Semua") ? "" : " WHERE jenis = '" + kategori + "'";
+ 
+        try (Connection con = storage.component.util.DBConnection.getConnection();
+             Statement st   = con.createStatement();
+             ResultSet rs   = st.executeQuery(
+                 "SELECT kode, nama, jenis, stok FROM barang" + whereKat + " ORDER BY jenis, nama")) {
+ 
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("kode"),
+                    rs.getString("nama"),
+                    rs.getString("jenis"),
+                    rs.getInt("stok")
+                });
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error tabel: " + e.getMessage());
+        }
+    }
+    
+    private void tampilGrafik(String dari, String sampai) {
+        org.jfree.data.category.DefaultCategoryDataset dataset =
+            new org.jfree.data.category.DefaultCategoryDataset();
+ 
+        try (Connection con = storage.component.util.DBConnection.getConnection();
+             Statement st   = con.createStatement()) {
+ 
+            ResultSet rs = st.executeQuery(
+                "SELECT TO_CHAR(tanggal,'Mon YYYY') AS bulan, " +
+                "       DATE_TRUNC('month', tanggal) AS urutan, " +
+                "       tipe, SUM(jumlah) AS total " +
+                "FROM transaksi " +
+                "WHERE tanggal BETWEEN '" + dari + "' AND '" + sampai + "' " +
+                "GROUP BY DATE_TRUNC('month', tanggal), TO_CHAR(tanggal,'Mon YYYY'), tipe " +
+                "ORDER BY urutan");
+ 
+            while (rs.next()) {
+                dataset.setValue(rs.getInt("total"),
+                    rs.getString("tipe"), rs.getString("bulan"));
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error grafik: " + e.getMessage());
+        }
+ 
+        org.jfree.chart.JFreeChart chart = org.jfree.chart.ChartFactory.createBarChart(
+            "Grafik Bulanan", "Bulan", "Jumlah", dataset);
+ 
+        org.jfree.chart.ChartPanel cp = new org.jfree.chart.ChartPanel(chart);
+        panelGrafik.setLayout(new java.awt.BorderLayout());
+        panelGrafik.removeAll();
+        panelGrafik.add(jLabel29, java.awt.BorderLayout.NORTH);
+        panelGrafik.add(cp, java.awt.BorderLayout.CENTER);
+        panelGrafik.revalidate();
+        panelGrafik.repaint();
     }
 
     @SuppressWarnings("unchecked")
