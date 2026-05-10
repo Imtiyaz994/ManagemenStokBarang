@@ -9,9 +9,9 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-
 public class PanelListBarang extends javax.swing.JPanel {
     
+    // ambil username dari user
     private final String username;
 
     public PanelListBarang(String username) {
@@ -23,6 +23,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         loadTableData();
     }
     
+    // validasi semua input sebelum tambah/edit
     private boolean validasiFields(String formType) {
     boolean namaIsi = !txtNama.getText().trim().isEmpty();
     boolean kodeIsi = !txtKode.getText().trim().isEmpty();
@@ -43,6 +44,7 @@ public class PanelListBarang extends javax.swing.JPanel {
     return false;
 }
 
+    // load semua barang ke tabel
     public void loadTableData() {
         DefaultTableModel model = (DefaultTableModel) tableBarang.getModel();
         model.setRowCount(0);
@@ -60,16 +62,23 @@ public class PanelListBarang extends javax.swing.JPanel {
                     stok,
                     rs.getString("infotambah")
                 });
+                // hitung total item dan lowstock
                 totalItem++;
-                if (stok < 5) lowStock++;
+                if (stok < 25) lowStock++; 
             }
+            totalItemCount.setFont(new java.awt.Font("Segoe UI", 1, 18));
+            totalItemCount.setForeground(new java.awt.Color(0, 102, 102));
             totalItemCount.setText(String.valueOf(totalItem));
+
+            lowStockCount.setFont(new java.awt.Font("Segoe UI", 1, 18));
+            lowStockCount.setForeground(new java.awt.Color(231, 23, 68));
             lowStockCount.setText(String.valueOf(lowStock));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
     
+    // simpan aktivitas ke tabel riwayat
     public static void simpanRiwayat (String nama, String kode, String jenis, int stok, String aksi, String user) {
         String query = "INSERT INTO riwayat (nama, kode, jenis, stok, aksi, user_aksi, tanggal) VALUES (?, ?, ?, ?, ?, ?, NOW())";
         
@@ -182,7 +191,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         lowStockCount.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lowStockCount.setText("0");
         panelLowStok.add(lowStockCount);
-        lowStockCount.setBounds(10, 20, 37, 10);
+        lowStockCount.setBounds(10, 20, 37, 20);
 
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 2, true));
         jPanel3.setLayout(null);
@@ -202,7 +211,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         jPanel3.setBounds(670, 30, 0, 0);
 
         add(panelLowStok);
-        panelLowStok.setBounds(790, 30, 110, 39);
+        panelLowStok.setBounds(790, 19, 110, 50);
 
         panelTotalItem.setBackground(new java.awt.Color(255, 255, 255));
         panelTotalItem.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 2, true));
@@ -217,7 +226,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         totalItemCount.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         totalItemCount.setText("0");
         panelTotalItem.add(totalItemCount);
-        totalItemCount.setBounds(10, 20, 37, 10);
+        totalItemCount.setBounds(10, 20, 37, 20);
 
         jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 2, true));
         jPanel5.setLayout(null);
@@ -237,7 +246,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         jPanel5.setBounds(670, 30, 0, 0);
 
         add(panelTotalItem);
-        panelTotalItem.setBounds(640, 30, 110, 39);
+        panelTotalItem.setBounds(640, 19, 110, 50);
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -338,6 +347,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         jLabel30.setBounds(40, 10, 70, 70);
     }// </editor-fold>//GEN-END:initComponents
 
+    // isi form dengan data yg di pilih
     private void tableBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBarangMouseClicked
         int index = tableBarang.getSelectedRow();
         if (index == -1) return;
@@ -423,14 +433,14 @@ public class PanelListBarang extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnTambahActionPerformed
-
+    
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         int confirm = JOptionPane.showConfirmDialog(null, "Yakin mau hapus data ini?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
                 Connection con = DBConnection.getConnection();
-
+                // hapus barang menggunakan kode sebagai identifier (unique)
                 String query = "DELETE FROM barang WHERE kode=?";
                 PreparedStatement pst = con.prepareStatement(query);
                 pst.setString(1, txtKode.getText().trim());
@@ -475,7 +485,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         } else {
             try {
                 Connection con = DBConnection.getConnection();
-
+                // edit barang menggunakan kode sebagai identifier
                 String query = "UPDATE barang SET nama=?, jenis=?, stok=?, infotambah=? WHERE kode=?";
                 PreparedStatement pst = con.prepareStatement(query);
                 pst.setString(1, nama);
@@ -511,6 +521,7 @@ public class PanelListBarang extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
+    // reset semua form dan button ke default
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         txtNama.setText("");
         txtKode.setText("");
@@ -525,9 +536,8 @@ public class PanelListBarang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void cbxJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxJenisActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxJenisActionPerformed
 
+    }//GEN-LAST:event_cbxJenisActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelInput;

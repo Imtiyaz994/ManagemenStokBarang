@@ -19,6 +19,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         loadDashboard();
     }
     
+    // load semua componen panel sekaligus
     private void loadDashboard() {
         loadcard();
         tampilGrafik();
@@ -49,6 +50,7 @@ public class PanelDashboard extends javax.swing.JPanel {
                 jLabel35.setText(String.valueOf(rs.getInt("total")));
             }
             
+            // card total item, jumlah semua unit
             rs = st.executeQuery("SELECT SUM(stok) as total FROM barang");
             if (rs.next()) {
                 jLabel38.setText(String.valueOf(rs.getInt("total")));
@@ -60,6 +62,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         }
     }
     
+    // grafik batang stop per jenis
     private void tampilGrafik() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         try {
@@ -83,6 +86,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         panelgrafik.repaint();
     }
     
+    // load tabel barang
     private void loadTabelBarang() {
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tableRekap.getModel();
         model.setRowCount(0); 
@@ -388,6 +392,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         Refresh.setBounds(630, 30, 130, 32);
     }// </editor-fold>//GEN-END:initComponents
 
+    // refresh semua data dash board
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
         loadDashboard();
     }//GEN-LAST:event_RefreshActionPerformed

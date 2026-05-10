@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+
 import storage.component.util.DBConnection;
 import storage.component.util.EventCallBack;
 import storage.component.util.EventTextField;
@@ -13,7 +14,7 @@ import storage.component.table.TableStyler;
 public class PanelRiwayat extends javax.swing.JPanel {
     int currentPage = 1;
     int limit = 10;
-    boolean isRefreshing = false;
+    boolean isRefreshing = false; // flag mencegah filter terpicu saat refresh
    
     public PanelRiwayat() {
         initComponents();
@@ -24,6 +25,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
         loadHalaman();
         loadTableRiwayat();;
         
+        // filter tabel berdasarkan opsi
         cbcxJenis.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,6 +58,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
             }
         });       
         
+        // melakukan search saat tekan enter
         searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -68,21 +71,24 @@ public class PanelRiwayat extends javax.swing.JPanel {
             }
         });
         
+        // melakukan search saat klik button search
         searchBar.addEvent(new EventTextField() {
             @Override
             public void onPressed(EventCallBack call) {
-                String keyword = searchBar.getText().trim();
-                currentPage = 1;
-                searchRiwayat(keyword);
-                call.done();
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    String keyword = searchBar.getText().trim();
+                    currentPage = 1;
+                    searchRiwayat(keyword);
+                });
+                call.done(); 
             }
-
             @Override
             public void onCancel() {
             }
          });
     }
     
+    // load data ke tabel
     public void loadTableRiwayat() {
         DefaultTableModel model = (DefaultTableModel) tableRiwayat.getModel();
         model.setRowCount(0);
@@ -99,8 +105,15 @@ public class PanelRiwayat extends javax.swing.JPanel {
                     
             while (rs.next()) {
                 String tanggal = sdf.format(rs.getTimestamp("tanggal"));
-                model.addRow(new Object[]{rs.getString("nama"), rs.getString("kode"), rs.getString("jenis"),
-                                          rs.getString("jenis"), rs.getString("aksi"), rs.getString("user_aksi"), tanggal});
+                model.addRow(new Object[]{
+                    rs.getString("nama"), 
+                    rs.getString("kode"), 
+                    rs.getString("jenis"),
+                    rs.getString("jenis"), 
+                    rs.getString("aksi"), 
+                    rs.getString("user_aksi"), 
+                    tanggal
+                });
             }
             
         } catch (Exception e) {
@@ -108,6 +121,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
         }
     }
     
+    // set semua combox berdasarkan data yg ada
     public void loadUserCombo() {
         try {
             Connection con = DBConnection.getConnection();
@@ -156,6 +170,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
         }
     }
     
+    // filter tabel berdasarkan jenis, user, aksi, tanggal
     public void filterByJenis(String jenis) {
         DefaultTableModel model = (DefaultTableModel) tableRiwayat.getModel();
         model.setRowCount(0);
@@ -280,14 +295,22 @@ public class PanelRiwayat extends javax.swing.JPanel {
         }
     }
     
+    // cari riwayat berdasarkan keyword
     public void searchRiwayat(String keyword) {
         DefaultTableModel model = (DefaultTableModel) tableRiwayat.getModel();
         model.setRowCount(0);
 
         try {
             Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM riwayat " + "WHERE nama LIKE ? " +  "OR kode LIKE ? " +
-                                                        "OR jenis LIKE ? " + "OR aksi LIKE ? " + "OR user_aksi LIKE ?");
+            PreparedStatement ps = con.prepareStatement(
+                "SELECT * FROM riwayat " +
+                "WHERE nama ILIKE ? " +
+                "OR kode ILIKE ? " +
+                "OR jenis ILIKE ? " +
+                "OR aksi ILIKE ? " +
+                "OR user_aksi ILIKE ? " +
+                "ORDER BY tanggal DESC");
+
             String query = "%" + keyword + "%";
             ps.setString(1, query);
             ps.setString(2, query);
@@ -299,8 +322,15 @@ public class PanelRiwayat extends javax.swing.JPanel {
 
             while (rs.next()) {
                 String tanggal = sdf.format(rs.getTimestamp("tanggal"));
-                model.addRow(new Object[]{rs.getString("nama"), rs.getString("kode"), rs.getString("jenis"),
-                                          rs.getString("stok"), rs.getString("aksi"), rs.getString("user_aksi"), tanggal}); 
+                model.addRow(new Object[]{
+                    rs.getString("nama"),
+                    rs.getString("kode"),
+                    rs.getString("jenis"),
+                    rs.getString("stok"),
+                    rs.getString("aksi"),
+                    rs.getString("user_aksi"),
+                    tanggal
+                });
             }
 
         } catch (Exception e) {
@@ -308,8 +338,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
         }
     }
     
- 
-    
+    // hitung total halaman berdasakan total riwayat
     public void loadHalaman() {
         cbxHalaman.removeAllItems();
 
@@ -317,7 +346,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
             Connection con = DBConnection.getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM riwayat");
-
+            
             int total = 0;
             if (rs.next()) {
                 total = rs.getInt(1);
@@ -341,11 +370,7 @@ public class PanelRiwayat extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
-    
-    
 
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -490,9 +515,10 @@ public class PanelRiwayat extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_searchBarActionPerformed
 
+    // load tabel berdasarkan halam yg dipilih
     private void cbxHalamanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHalamanActionPerformed
         try {
             Object selectedObj = cbxHalaman.getSelectedItem();
@@ -516,9 +542,10 @@ public class PanelRiwayat extends javax.swing.JPanel {
     }//GEN-LAST:event_cbxHalamanActionPerformed
 
     private void cbcxJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbcxJenisActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cbcxJenisActionPerformed
 
+    // reset semua field dan filter ke default
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         try {
             isRefreshing = true;
@@ -542,13 +569,12 @@ public class PanelRiwayat extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void cbxAksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAksiActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cbxAksiActionPerformed
 
     private void cbxUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxUserActionPerformed
 
+    }//GEN-LAST:event_cbxUserActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private storage.component.ui.RoundedButton btnRefresh;
@@ -568,5 +594,4 @@ public class PanelRiwayat extends javax.swing.JPanel {
     private storage.component.ui.TextFieldAnimation searchBar;
     private javax.swing.JTable tableRiwayat;
     // End of variables declaration//GEN-END:variables
-
 }

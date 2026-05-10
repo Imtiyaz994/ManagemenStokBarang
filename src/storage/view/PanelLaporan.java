@@ -6,27 +6,50 @@ import java.awt.Color;
 import storage.component.table.TableStyler;
 
 public class PanelLaporan extends javax.swing.JPanel {
+    
+    // simpan tanggal dalam format sql
+    private String sqlDari  = "";
+    private String sqlSampai = "";
 
     public PanelLaporan() {
         initComponents();
         TableStyler.style(tableRekap);
+        populateTanggal();
+        loadLaporan();
     }
     
+    // akan mengisi combox dari 12 tahun kebelakang
+    private void populateTanggal() {
+        java.text.SimpleDateFormat fmt = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+
+        String[] tanggalList = new String[12];
+        for (int i = 0; i < 12; i++) {
+            tanggalList[i] = fmt.format(cal.getTime());
+            cal.add(java.util.Calendar.MONTH, -1);
+        }
+
+        boxSampai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{tanggalList[0]}));
+        boxDari.setModel(new javax.swing.DefaultComboBoxModel<>(tanggalList));
+        boxDari.setSelectedIndex(6); // default 6 bulan lalu
+        
+    }
+
+    // load semua laporan sesuai filter yg dipilih
     private void loadLaporan() {
         String kategori = (String) boxKategori.getSelectedItem();
         String dari     = (String) boxDari.getSelectedItem();
         String sampai   = (String) boxSampai.getSelectedItem();
-        
-        // Validasi tanggal
-        String sqlDari, sqlSampai;
+
+        // validasi dan convert tanggal ke format sql
         try {
             java.text.SimpleDateFormat inputFmt = new java.text.SimpleDateFormat("dd/MM/yyyy");
             java.text.SimpleDateFormat sqlFmt   = new java.text.SimpleDateFormat("yyyy-MM-dd");
             java.util.Date tDari   = inputFmt.parse(dari);
             java.util.Date tSampai = inputFmt.parse(sampai);
- 
+
             if (tDari.after(tSampai)) {
-                jLabel2.setText("invalid");
+                jLabel2.setText("Tanggal tidak valid!");
                 jLabel2.setForeground(new java.awt.Color(231, 23, 68));
                 jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(
                     new java.awt.Color(231, 23, 68)));
@@ -35,49 +58,53 @@ public class PanelLaporan extends javax.swing.JPanel {
                 jLabel2.setText("");
                 jLabel2.setBorder(null);
             }
- 
+
             sqlDari   = sqlFmt.format(tDari);
             sqlSampai = sqlFmt.format(tSampai);
- 
+
         } catch (Exception ex) {
-            jLabel2.setText("invalid");
+            jLabel2.setText("Format tanggal error!");
             jLabel2.setForeground(new java.awt.Color(231, 23, 68));
             jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(
                 new java.awt.Color(231, 23, 68)));
             return;
         }
- 
+
         String whereKat = kategori.equalsIgnoreCase("Semua") ? "" : " AND jenis = '" + kategori + "'";
- 
-        try (Connection con = storage.component.util.DBConnection.getConnection();
-             Statement st   = con.createStatement()) {
- 
-            ResultSet rs;
- 
+
+        try (java.sql.Connection con = storage.component.util.DBConnection.getConnection();
+             java.sql.Statement st   = con.createStatement()) {
+
+            java.sql.ResultSet rs;
+
             // Total Barang
             rs = st.executeQuery("SELECT COUNT(*) AS total FROM barang WHERE 1=1" + whereKat);
             if (rs.next()) jLabel27.setText(String.valueOf(rs.getInt("total")));
- 
+
             // Barang Masuk
             rs = st.executeQuery(
-                "SELECT COALESCE(SUM(jumlah),0) AS total FROM transaksi " +
-                "WHERE tipe='masuk' AND tanggal BETWEEN '" + sqlDari + "' AND '" + sqlSampai + "'" + whereKat);
+                "SELECT COUNT(*) AS total FROM riwayat " +
+                "WHERE aksi='Tambah' " +
+                "AND tanggal >= '" + sqlDari + "' AND tanggal < '" + sqlSampai + "'::date + INTERVAL '1 day'" +
+                whereKat);
             if (rs.next()) jLabel10.setText(String.valueOf(rs.getInt("total")));
- 
+
             // Barang Keluar
             rs = st.executeQuery(
-                "SELECT COALESCE(SUM(jumlah),0) AS total FROM transaksi " +
-                "WHERE tipe='keluar' AND tanggal BETWEEN '" + sqlDari + "' AND '" + sqlSampai + "'" + whereKat);
+                "SELECT COUNT(*) AS total FROM riwayat " +
+                "WHERE aksi='Hapus' " +
+                "AND tanggal >= '" + sqlDari + "' AND tanggal < '" + sqlSampai + "'::date + INTERVAL '1 day'" +
+                whereKat);
             if (rs.next()) jLabel13.setText(String.valueOf(rs.getInt("total")));
- 
+
             // Stok Menipis
             rs = st.executeQuery("SELECT COUNT(*) AS total FROM barang WHERE stok < 25" + whereKat);
             if (rs.next()) jLabel16.setText(String.valueOf(rs.getInt("total")));
- 
+
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
- 
+
         loadTabelRekap(kategori);
         tampilGrafik(sqlDari, sqlSampai);
     }
@@ -90,7 +117,8 @@ public class PanelLaporan extends javax.swing.JPanel {
         tableRekap.setModel(model);
         TableStyler.style(tableRekap);
  
-        String whereKat = kategori.equalsIgnoreCase("Semua") ? "" : " WHERE jenis = '" + kategori + "'";
+        // ambil semua barang jika filter kategeri bukan semua
+       String whereKat = kategori.equalsIgnoreCase("Semua") ? "" : " WHERE jenis = '" + kategori + "'";
  
         try (Connection con = storage.component.util.DBConnection.getConnection();
              Statement st   = con.createStatement();
@@ -111,32 +139,70 @@ public class PanelLaporan extends javax.swing.JPanel {
     }
     
     private void tampilGrafik(String dari, String sampai) {
+        String periode = (String) boxPeriode.getSelectedItem();
+
+        String truncBy = periode.equalsIgnoreCase("Tahunan") ? "year" : "month";
+        String charBy  = periode.equalsIgnoreCase("Tahunan") ? "YYYY" : "Mon YYYY";
+
+        // update label sesuai periode
+        jLabel29.setText("Grafik " + periode);
+
         org.jfree.data.category.DefaultCategoryDataset dataset =
             new org.jfree.data.category.DefaultCategoryDataset();
- 
-        try (Connection con = storage.component.util.DBConnection.getConnection();
-             Statement st   = con.createStatement()) {
- 
-            ResultSet rs = st.executeQuery(
-                "SELECT TO_CHAR(tanggal,'Mon YYYY') AS bulan, " +
-                "       DATE_TRUNC('month', tanggal) AS urutan, " +
-                "       tipe, SUM(jumlah) AS total " +
-                "FROM transaksi " +
-                "WHERE tanggal BETWEEN '" + dari + "' AND '" + sampai + "' " +
-                "GROUP BY DATE_TRUNC('month', tanggal), TO_CHAR(tanggal,'Mon YYYY'), tipe " +
+
+        try (java.sql.Connection con = storage.component.util.DBConnection.getConnection();
+             java.sql.Statement st = con.createStatement()) {
+
+            // hitung jumlah tambah/hapus sesuai periode
+            java.sql.ResultSet rs = st.executeQuery(
+                "SELECT TO_CHAR(tanggal, '" + charBy + "') AS label, " +
+                "       DATE_TRUNC('" + truncBy + "', tanggal) AS urutan, " +
+                "       aksi AS tipe, COUNT(*) AS total " +
+                "FROM riwayat " +
+                "WHERE tanggal >= '" + dari + "' " +
+                "  AND tanggal < '" + sampai + "'::date + INTERVAL '1 day' " +
+                "GROUP BY DATE_TRUNC('" + truncBy + "', tanggal), " +
+                "         TO_CHAR(tanggal, '" + charBy + "'), aksi " +
                 "ORDER BY urutan");
- 
+
             while (rs.next()) {
-                dataset.setValue(rs.getInt("total"),
-                    rs.getString("tipe"), rs.getString("bulan"));
+                dataset.setValue(
+                    rs.getInt("total"),
+                    rs.getString("tipe"),
+                    rs.getString("label")
+                );
             }
+
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error grafik: " + e.getMessage());
         }
- 
+
         org.jfree.chart.JFreeChart chart = org.jfree.chart.ChartFactory.createBarChart(
-            "Grafik Bulanan", "Bulan", "Jumlah", dataset);
- 
+            "Grafik " + periode, "Periode", "Jumlah", dataset);
+        
+        // ── Ambil plot 
+        org.jfree.chart.plot.CategoryPlot plot = chart.getCategoryPlot();
+        org.jfree.chart.renderer.category.BarRenderer renderer =
+            (org.jfree.chart.renderer.category.BarRenderer) plot.getRenderer();
+
+        //  warna sesuai dengan aksi
+        int idxTambah = dataset.getRowIndex("Tambah");
+        int idxHapus  = dataset.getRowIndex("Hapus");
+        if (idxTambah >= 0)
+            renderer.setSeriesPaint(idxTambah, new java.awt.Color(0, 102, 102));   // teal
+        if (idxHapus >= 0)
+            renderer.setSeriesPaint(idxHapus, new java.awt.Color(235, 110, 79));   // orange
+
+        // label miring biar ga kepotong
+        org.jfree.chart.axis.CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(
+            org.jfree.chart.axis.CategoryLabelPositions.UP_45); // miring 45°
+
+        // set backgoournd color
+        plot.setBackgroundPaint(java.awt.Color.WHITE);
+        plot.setRangeGridlinePaint(java.awt.Color.LIGHT_GRAY);
+        chart.setBackgroundPaint(java.awt.Color.WHITE);
+
         org.jfree.chart.ChartPanel cp = new org.jfree.chart.ChartPanel(chart);
         panelGrafik.setLayout(new java.awt.BorderLayout());
         panelGrafik.removeAll();
@@ -185,7 +251,6 @@ public class PanelLaporan extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableRekap = new javax.swing.JTable();
         jLabel24 = new javax.swing.JLabel();
-        roundedButton1 = new storage.component.ui.RoundedButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(940, 710));
@@ -250,6 +315,7 @@ public class PanelLaporan extends javax.swing.JPanel {
         boxPeriode.setFocusable(false);
         boxPeriode.setOpaque(true);
         boxPeriode.setPreferredSize(new java.awt.Dimension(120, 30));
+        boxPeriode.addActionListener(this::boxPeriodeActionPerformed);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 102));
@@ -284,7 +350,7 @@ public class PanelLaporan extends javax.swing.JPanel {
         boxKategori.setBackground(Color.WHITE);
         boxKategori.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         boxKategori.setForeground(new java.awt.Color(51, 51, 51));
-        boxKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Elektronik", "ATK" }));
+        boxKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Elektronik", "Makanan", "Obat", "Pakaian" }));
         boxKategori.setFocusable(false);
         boxKategori.setOpaque(true);
         boxKategori.setPreferredSize(new java.awt.Dimension(120, 30));
@@ -436,6 +502,7 @@ public class PanelLaporan extends javax.swing.JPanel {
         add(panelMenipis);
         panelMenipis.setBounds(630, 180, 120, 100);
 
+        panelGrafik.setBackground(new java.awt.Color(255, 255, 255));
         panelGrafik.setLayout(null);
 
         jLabel29.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -474,26 +541,24 @@ public class PanelLaporan extends javax.swing.JPanel {
 
         add(panelRekap);
         panelRekap.setBounds(390, 330, 520, 290);
-
-        roundedButton1.setText("Export CSV");
-        roundedButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        roundedButton1.setRadius(10);
-        add(roundedButton1);
-        roundedButton1.setBounds(780, 20, 120, 30);
     }// </editor-fold>//GEN-END:initComponents
 
+    // reload laporan setiap filter berubah
     private void boxDariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxDariActionPerformed
-        // TODO add your handling code here:
+       loadLaporan();
     }//GEN-LAST:event_boxDariActionPerformed
 
     private void boxSampaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxSampaiActionPerformed
-        // TODO add your handling code here:
+        loadLaporan();
     }//GEN-LAST:event_boxSampaiActionPerformed
 
     private void boxKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxKategoriActionPerformed
-        // TODO add your handling code here:
+        loadLaporan();
     }//GEN-LAST:event_boxKategoriActionPerformed
 
+    private void boxPeriodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxPeriodeActionPerformed
+        loadLaporan();
+    }//GEN-LAST:event_boxPeriodeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxDari;
@@ -530,7 +595,6 @@ public class PanelLaporan extends javax.swing.JPanel {
     private storage.component.ui.RoundedPanel panelMasuk;
     private storage.component.ui.RoundedPanel panelMenipis;
     private storage.component.ui.RoundedPanel panelRekap;
-    private storage.component.ui.RoundedButton roundedButton1;
     private javax.swing.JTable tableRekap;
     // End of variables declaration//GEN-END:variables
 }

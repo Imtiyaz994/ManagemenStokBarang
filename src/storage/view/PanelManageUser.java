@@ -11,6 +11,7 @@ import storage.component.table.TableStyler;
 
 public class PanelManageUser extends javax.swing.JPanel {
     
+    // simpen username untuk keperluan update
     private String selectedUsername = "";
 
     public PanelManageUser() {
@@ -20,9 +21,9 @@ public class PanelManageUser extends javax.swing.JPanel {
         loadTableUser();
     }
 
+    // load semua data ke tabel user
     public void loadTableUser() {
-    javax.swing.table.DefaultTableModel model = 
-        (javax.swing.table.DefaultTableModel) userTable.getModel();
+    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) userTable.getModel();
     model.setRowCount(0);
     try {
         Connection con = DBConnection.getConnection();
@@ -259,6 +260,7 @@ public class PanelManageUser extends javax.swing.JPanel {
         jLabel31.setBounds(20, 20, 70, 64);
     }// </editor-fold>//GEN-END:initComponents
 
+    // isi form sesuai dgn user yang dipilih
     private void userTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userTableMouseClicked
         int index = userTable.getSelectedRow();
         TableModel model = userTable.getModel();
@@ -291,6 +293,7 @@ public class PanelManageUser extends javax.swing.JPanel {
         loadTableUser();
     }//GEN-LAST:event_userTableComponentShown
 
+    // toggle show/hide password
     private void checkPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPasswordActionPerformed
         if (checkPassword.isSelected()) {
             txtPassword.setEchoChar((char) 0);
@@ -308,7 +311,8 @@ public class PanelManageUser extends javax.swing.JPanel {
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
 
     }//GEN-LAST:event_txtPasswordActionPerformed
-
+    
+    // delete user berdasarkan username
     private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
         int confirm = JOptionPane.showConfirmDialog(null, "Yakin mau hapus user ini?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
 
@@ -342,7 +346,6 @@ public class PanelManageUser extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteUserActionPerformed
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
-
         String username = txtUsername.getText().trim();
         String email = txtEmail.getText().trim();
         String password = new String (txtPassword.getPassword()).trim();
@@ -350,6 +353,7 @@ public class PanelManageUser extends javax.swing.JPanel {
         String role = boxRole.getSelectedItem().toString();
         String status = boxStatus.getSelectedItem().toString();
 
+        // validasi field
         if (username.isEmpty() || email.isEmpty() ||  password.isEmpty() || conPassword.isEmpty() || role.isEmpty() || status.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Semua Field Harus Diisi!");
             return;
@@ -362,7 +366,7 @@ public class PanelManageUser extends javax.swing.JPanel {
 
         try {
             Connection con = DBConnection.getConnection();
-
+            // cek duplikat menggunakan username dan email sebagai identifier
             PreparedStatement cek = con.prepareStatement("SELECT COUNT(*) FROM users WHERE username=? OR email=?");
             cek.setString(1, username);
             cek.setString(2, email);
@@ -398,7 +402,6 @@ public class PanelManageUser extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void btnUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserActionPerformed
-
         String username = txtUsername.getText().trim();
         String email = txtEmail.getText().trim();
         String password = new String (txtPassword.getPassword()).trim();
@@ -412,7 +415,7 @@ public class PanelManageUser extends javax.swing.JPanel {
 
         try {
             Connection con = DBConnection.getConnection();
-
+            //  update user pakai selectedUsername sebagai identifier
             String query = "UPDATE users SET username=?, email=?, password=?, role=?, status=? WHERE username=?";
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, username);
@@ -438,6 +441,7 @@ public class PanelManageUser extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnUpdateUserActionPerformed
 
+    // reset semua form dan button ke default
     private void btnClearUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearUserActionPerformed
         txtUsername.setText("");
         txtEmail.setText("");
@@ -454,7 +458,6 @@ public class PanelManageUser extends javax.swing.JPanel {
         txtConPassword.setEnabled(true);
         txtConPassword.setBackground(new Color(255, 255, 255));
     }//GEN-LAST:event_btnClearUserActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxRole;

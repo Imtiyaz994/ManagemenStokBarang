@@ -8,11 +8,13 @@ public class MainFrame extends javax.swing.JFrame {
     private final String userRole;
     private final String username;
     
+    // terima role dan username dari login
     public MainFrame(String role, String username) {
         this.userRole = role;
         this.username = username;
         initComponents(); 
     
+        // sembunyikan manage user jika role bukan admin
         if (!userRole.equalsIgnoreCase("Admin")) {
             btnManageUser.setVisible(false);
         }
@@ -162,20 +164,19 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    // navigasi sidebar, mengganti panel sesuai button yang di pilih
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
         Parent.removeAll();
         Parent.add(new PanelDashboard());
         Parent.repaint();
-        Parent.revalidate();
-         
+        Parent.revalidate();         
     }//GEN-LAST:event_btnDashboardActionPerformed
 
     private void btnListBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListBarangActionPerformed
         Parent.removeAll();
         Parent.add(new PanelListBarang(username));
         Parent.repaint();
-        Parent.revalidate();
-        
+        Parent.revalidate();   
     }//GEN-LAST:event_btnListBarangActionPerformed
 
     private void btnManageUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageUserActionPerformed
